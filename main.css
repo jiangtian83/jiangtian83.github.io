@@ -3,7 +3,7 @@ body >header {
   padding: 1.8em 0 1.5em;
 }
 
-#main {
+#header {
   width: 100%;
   -webkit-box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
   box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
