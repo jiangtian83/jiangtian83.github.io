@@ -5,10 +5,10 @@ body >header {
 
 #header {
   width: 100%;
-  height: 120px;
+  height: 150px;
   -webkit-box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
   box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
   background: #009fcc;
   color: #fff;
-  padding: 1em 0 0.8em;
+  padding: 1em 1em 0.8em;
 }
