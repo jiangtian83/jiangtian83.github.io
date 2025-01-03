@@ -11,17 +11,20 @@
 <style>
 .container {
   display: flex;                  /* 启用 Flexbox */
-  flex-direction: column;         /* 垂直排列内容 */
   align-items: center;            /* 水平居中 */
-  width: 100%;
   height: 100px;                  /* 使容器占满屏幕高度 */
-  text-align: center;             /* 文字居中对齐 */
 }
 
 .container img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover; 
+}
+
+.container p {
+  margin: 0;                    /* 清除默认外边距 */
+  line-height: 100px;           /* 垂直居中文本 */
 }
 </style>
 </body>
