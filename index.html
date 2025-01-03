@@ -2,7 +2,7 @@
 <head>
 <title>无尘阁学佛修行日记</title>
 </head>
-<body style="margin:50px 250px;">
+<body style="margin:0 250px 50px;">
 <h1 class='container'><img src='static/img/logo.webp'><p>无尘阁学佛修行日记</p></h1>
 <ul>
 <li><a href="beginning-and-transcendence-awakening-and-liberation-from-emotional-attachment.html">初心与超越：在情感执着中觉醒解脱之道</a></li>
@@ -10,21 +10,18 @@
 </ul>
 <style>
 .container {
-  height: 150px;             /* 容器高度 */
-  line-height: 150px;        /* 与高度相同，实现垂直居中 */
+  display: flex;                  /* 启用 Flexbox */
+  flex-direction: column;         /* 垂直排列内容 */
+  align-items: center;            /* 水平居中 */
+  justify-content: center;        /* 垂直居中 */
+  height: 100px;                  /* 使容器占满屏幕高度 */
+  text-align: center;             /* 文字居中对齐 */
 }
 
 .container img {
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  margin-right:15px;
-}
-
-.container p {
-  display: inline-block;     /* 使文字不受 line-height 的高度影响 */
-  line-height: 150px;       /* 恢复正常行高 */
-  vertical-align: middle;    /* 调整到图片居中 */
+  max-width: 100%;                /* 防止图片超出容器宽度 */
+  height: auto;                   /* 保持图片比例 */
+  margin-bottom: 10px;            /* 图片与文字的间距 */
 }
 </style>
 </body>
