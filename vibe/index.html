@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一号位 Vibe Coding 案例馆 · 江楠 × 国泰道合</title>
+<style>
+:root{
+  --navy:#0d2137; --navy2:#132c4b; --navy3:#1a3a63;
+  --red:#c8402e; --red2:#e05a44;
+  --cream:#f6f2e9; --paper:#fdfbf6; --ink:#1c2733; --grey:#5b6b7c;
+  --line:#e3ddcf; --gold:#b98a2f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--cream);color:var(--ink);line-height:1.7}
+h1,h2,h3,.serif{font-family:"Noto Serif SC","Songti SC","STSong",serif}
+a{color:inherit}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,33,55,.96);backdrop-filter:blur(8px);
+  display:flex;align-items:center;gap:16px;padding:10px 24px;border-bottom:2px solid var(--red)}
+.topbar .brand{color:#fff;font-size:15px;letter-spacing:.05em;white-space:nowrap}
+.topbar .brand b{color:var(--red2)}
+.topbar input{flex:1;max-width:340px;padding:7px 14px;border-radius:99px;border:1px solid #33507a;background:#0a1a2d;color:#fff;font-size:13px;outline:none}
+.topbar input::placeholder{color:#6f87a6}
+.evfilter{display:flex;gap:6px;margin-left:auto}
+.evfilter button{border:1px solid #33507a;background:transparent;color:#a9bed6;font-size:12px;
+  padding:4px 10px;border-radius:99px;cursor:pointer}
+.evfilter button.on{background:var(--red);border-color:var(--red);color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 60%,#0a1a2d 100%);color:#fff;padding:72px 24px 56px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(600px 300px at 85% 15%,rgba(200,64,46,.18),transparent 60%),
+  radial-gradient(400px 200px at 10% 90%,rgba(185,138,47,.10),transparent 60%);pointer-events:none}
+.hero .inner{max-width:1080px;margin:0 auto;position:relative;z-index:1}
+.hero .kicker{color:var(--red2);font-size:14px;letter-spacing:.3em;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.25;font-weight:900}
+.hero h1 em{color:var(--red2);font-style:normal}
+.hero .slogan{margin-top:20px;font-size:clamp(17px,2.4vw,24px);color:#e8ddc4;font-family:"Noto Serif SC","Songti SC",serif}
+.hero .slogan::before{content:"「";color:var(--red2)}
+.hero .slogan::after{content:"」";color:var(--red2)}
+.hero .sub{margin-top:16px;color:#a9bed6;font-size:14px;max-width:720px}
+.stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-left:3px solid var(--red);
+  padding:14px 20px;border-radius:8px;min-width:150px}
+.stat b{display:block;font-size:26px;color:#fff;font-family:"Noto Serif SC",serif}
+.stat span{font-size:12px;color:#93a9c4}
+.hero .byline{margin-top:30px;font-size:13px;color:#7f97b5}
+.hero .byline a{color:#c9d9ec;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- 展厅导航 ---------- */
+.halls{max-width:1080px;margin:0 auto;padding:34px 24px 6px;display:flex;flex-wrap:wrap;gap:10px}
+.hall-btn{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:8px 18px;
+  font-size:14px;cursor:pointer;color:var(--ink);transition:all .15s}
+.hall-btn:hover{border-color:var(--red);color:var(--red)}
+.hall-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.count-note{max-width:1080px;margin:8px auto 0;padding:0 24px;font-size:12px;color:var(--grey)}
+
+/* ---------- 展区 ---------- */
+.hall{max-width:1080px;margin:0 auto;padding:34px 24px 8px}
+.hall-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:8px}
+.hall-head .no{color:var(--red);font-size:13px;letter-spacing:.2em;white-space:nowrap}
+.hall-head h2{font-size:24px}
+.hall-head .desc{color:var(--grey);font-size:13px;margin-left:auto;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:18px 0 10px}
+
+/* ---------- 展品卡（展签） ---------- */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 18px 14px;
+  cursor:pointer;position:relative;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(13,33,55,.14);border-color:var(--red)}
+.card .no{font-size:11px;color:var(--gold);letter-spacing:.15em}
+.card h3{font-size:17px;line-height:1.45;margin:6px 0 4px}
+.card .person{font-size:13px;color:var(--red);font-weight:600}
+.card .one{font-size:13px;color:var(--grey);margin-top:8px;flex:1}
+.card .foot{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.badge{font-size:11px;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.badge.A{background:#eef4ea;color:#3c6e47;border:1px solid #cfe0c6}
+.badge.B{background:#fdf3e3;color:#96660f;border:1px solid #ecd9ae}
+.badge.C{background:#f1f1f1;color:#666;border:1px solid #ddd}
+.card .open{font-size:12px;color:var(--grey);margin-left:auto}
+
+/* ---------- 数据带 ---------- */
+.databand{background:var(--navy);color:#fff;margin:40px 0 0;padding:44px 24px}
+.databand .inner{max-width:1080px;margin:0 auto}
+.databand h2{font-size:22px;margin-bottom:4px}
+.databand .kick{color:var(--red2);font-size:13px;letter-spacing:.2em;margin-bottom:18px}
+.datarow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.datacard{border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:18px;background:rgba(255,255,255,.04)}
+.datacard b{font-size:30px;color:var(--red2);font-family:"Noto Serif SC",serif;display:block}
+.datacard p{font-size:13px;color:#c4d3e6;margin-top:6px}
+.datacard span{font-size:11px;color:#7f97b5}
+
+/* ---------- 金句墙 ---------- */
+.quotes{max-width:1080px;margin:0 auto;padding:44px 24px 8px}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:18px}
+.qcard{background:var(--navy2);color:#fff;border-radius:10px;padding:22px;position:relative}
+.qcard::before{content:"「";position:absolute;top:6px;left:12px;font-size:30px;color:var(--red2);font-family:serif}
+.qcard .qt{font-size:15px;line-height:1.8;font-family:"Noto Serif SC","Songti SC",serif;padding-left:18px;word-break:break-word}
+.qcard .qw{margin-top:12px;font-size:12px;color:#9db2ca}
+.qcard .qn{margin-top:4px;font-size:11px;color:#6f87a6}
+
+/* ---------- 冷水墙 ---------- */
+.hall.cold .hall-head{border-color:var(--red)}
+.hall.cold .card{background:#fbf3f1;border-color:#eccfc8}
+
+/* ---------- 行动框架 ---------- */
+.framework{background:var(--paper);border-top:1px solid var(--line);margin-top:44px;padding:44px 24px}
+.framework .inner{max-width:1080px;margin:0 auto}
+.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}
+.route{border:1px solid var(--line);border-left:4px solid var(--red);border-radius:8px;padding:18px;background:#fff}
+.route h3{font-size:16px}
+.route p{font-size:13px;color:var(--grey);margin-top:6px}
+.matrix{width:100%;border-collapse:collapse;margin-top:26px;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 0 var(--line)}
+.matrix th{background:var(--navy);color:#fff;padding:12px 14px;text-align:left;font-weight:600}
+.matrix th:nth-child(2){background:#2c5b3f}.matrix th:nth-child(3){background:#8c2f22}
+.matrix td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.matrix tr:last-child td{border-bottom:none}
+.matrix td:first-child{font-weight:600;white-space:nowrap;color:var(--navy)}
+.checklist{margin-top:26px;background:var(--navy);color:#eaf1f9;border-radius:10px;padding:24px}
+.checklist h3{color:#fff;font-size:18px;margin-bottom:12px}
+.checklist li{font-size:14px;margin:8px 0 8px 1.2em;line-height:1.8}
+.checklist b{color:var(--red2)}
+
+/* ---------- 详情弹窗 ---------- */
+.modal-mask{position:fixed;inset:0;background:rgba(10,20,35,.66);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-mask.show{display:flex}
+.modal{background:var(--paper);max-width:720px;width:100%;max-height:86vh;overflow-y:auto;border-radius:14px;
+  border-top:5px solid var(--red);padding:30px 32px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.modal .mno{font-size:12px;color:var(--gold);letter-spacing:.2em}
+.modal h2{font-size:24px;margin:8px 0 2px;line-height:1.4}
+.modal .mperson{color:var(--red);font-weight:600;font-size:14px}
+.modal .mhall{font-size:12px;color:var(--grey);margin:4px 0 16px}
+.modal ul{margin:0 0 6px 1.1em}
+.modal li{font-size:14.5px;margin:7px 0;line-height:1.8}
+.modal .mquote{margin:16px 0;padding:14px 18px;background:var(--navy);color:#f2e9d5;border-radius:8px;font-family:"Noto Serif SC",serif;font-size:15px}
+.modal .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.modal .links a{display:inline-block;padding:8px 16px;border-radius:99px;font-size:13px;text-decoration:none}
+.modal .links a.src{background:var(--red);color:#fff}
+.modal .links a.prd{background:var(--navy);color:#fff}
+.modal .mev{margin-top:12px;font-size:12px;color:var(--grey)}
+.modal .close{position:absolute;top:14px;right:16px;border:none;background:none;font-size:22px;cursor:pointer;color:var(--grey)}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--navy);color:#9db2ca;margin-top:48px;padding:40px 24px 32px;font-size:13px}
+footer .inner{max-width:1080px;margin:0 auto}
+footer h3{color:#fff;font-size:16px;margin-bottom:10px}
+footer a{color:#cfe0f2}
+footer .note{margin-top:14px;font-size:12px;color:#6f87a6;line-height:1.9}
+footer .live{margin-top:14px;display:inline-block;background:var(--red);color:#fff;padding:8px 18px;border-radius:99px;text-decoration:none;font-size:13px}
+@media(max-width:640px){.topbar{flex-wrap:wrap}.evfilter{margin-left:0}.modal{padding:22px 18px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand serif">一号位 <b>Vibe Coding</b> 案例馆</div>
+  <input id="q" type="search" placeholder="搜索人物、公司、关键词…">
+  <div class="evfilter" id="evfilter">
+    <button data-ev="" class="on">全部证据</button>
+    <button data-ev="A">证据A</button>
+    <button data-ev="B">证据B</button>
+    <button data-ev="C">证据C</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="inner">
+    <div class="kicker">ENTREPRENEURS × VIBE CODING · 真实记录互动馆</div>
+    <h1>26 位企业家亲测：<br>Vibe Coding <em>到底改变了什么</em></h1>
+    <div class="slogan">指挥，而不是动手。</div>
+    <p class="sub">从 Karpathy 到傅盛，从高盛到食品卡车厂——这里只收企业家本人的真实下场记录：证据分级标注，原始链接逐条可点，预测落空和安全事故也不藏。能跑起来的东西和不会垮的东西，是两回事。</p>
+    <div class="stats">
+      <div class="stat"><b>26</b><span>位一号位亲测案例</span></div>
+      <div class="stat"><b>30+</b><span>组展品与数据点</span></div>
+      <div class="stat"><b>100%</b><span>附原始来源链接</span></div>
+      <div class="stat"><b>3</b><span>条可带走的行动路线</span></div>
+    </div>
+    <div class="byline">出品：江楠（江天） × 国泰道合 ｜ 更多实证笔记：<a href="https://jiangtian.top" target="_blank" rel="noopener">jiangtian.top</a></div>
+  </div>
+</section>
+
+<nav class="halls" id="halls"></nav>
+<p class="count-note" id="countnote"></p>
+
+<main id="main"></main>
+
+<section class="databand" id="databand"></section>
+<section class="quotes" id="quotes"></section>
+<section class="framework" id="framework"></section>
+
+<footer>
+  <div class="inner">
+    <h3 class="serif">关于本馆</h3>
+    <p>本馆由 <b style="color:#fff">江楠（江天）</b> 策展——国泰道合 AI 实战导师 / 企业 AI 落地顾问。国泰道合做企业经营变革的培训与咨询，客户以中大型制造、贸易与专业服务企业为主；江楠同时是腾讯 WorkBuddy 企业版生态合作的技术侧代表。本站即使用 AI 编程工具完成——它本身就是展品主题的一次实践。</p>
+    <p style="margin-top:8px">作者博客：<a href="https://jiangtian.top" target="_blank" rel="noopener">jiangtian.top</a>（无尘阁日记）｜ 全部案例的完整调研底稿（37 个案例、10 条证伪清单）在直播后公开。</p>
+    <a class="live" href="https://jiangtian.top" target="_blank" rel="noopener">2026-10-24 周六 19:30 直播逐页讲透这份调研 →</a>
+    <p class="note">证据分级说明：A = 本人/官方一手来源（原推、官方新闻稿、财报会、本人博客）；B = 权威媒体采访或报道；C = 社区自述或单方口径，引用请自行复核。<br>免责声明：案例中的金额与效率数字多为当事人自报口径，本馆保留原始表述并标注证据等级，不构成任何投资或采购建议。</p>
+    <p class="note">© 2026 江楠 × 国泰道合 ｜ 为 WorkBuddy「1024 造物挑战」而作 #WorkBuddy #1024程序员节</p>
+  </div>
+</footer>
+
+<div class="modal-mask" id="mask">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script id="museum-data" type="application/json">{"exhibits": [{"id": "A1", "ch": 1, "chName": "命名者下场", "person": "Andrej Karpathy", "title": "MenuGen：前特斯拉 AI 总监的 vibe coding 作业", "bullets": ["干了什么", "拍一张餐厅菜单照片 → AI 生成每道菜的配图，解决「看菜单不知道菜长什么样」", "几乎没写代码：Cursor + Claude + 语音输入，全程「说」出来的", "专门写了复盘博客，把踩的坑全公开了"], "url": "https://web.archive.org/web/20260905222102/https://karpathy.bearblog.dev/vibe-coding-menugen/", "product": "https://menugen.app", "evidence": "证据A · 本人博客", "quote": "看到东西，说出想法，跑起来，复制粘贴——然后它大多数时候真能跑。"}, {"id": "", "ch": 1, "chName": "命名者下场", "person": "案例 A1 · 后续", "title": "这个故事最值钱的是结局", "bullets": ["2026 年 Sequoia AI Ascent 上，Karpathy 自己说：MenuGen 已被 Gemini 单次提示词取代", "含义一：vibe coding 产品的护城河≈0，大厂模型升级就碾过去", "含义二：但对一号位来说，「自己上手摸过」这件事本身不可替代——他知道边界在哪", "反面教材：他 2025-10 发布 nanochat 时明确说「完全是手写的，不是 vibe coded」"], "url": "", "product": "", "evidence": "证据B · aidigitalnews 报道", "quote": ""}, {"id": "A2", "ch": 2, "chName": "中国一号位", "person": "傅盛", "title": "猎豹移动 CEO：卧床 14 天，养出一支 8 Agent 团队", "bullets": ["2025-03 自述「大学毕业后就没真正写过程序，现在沉迷敲代码」，要求猎豹全员学 AI 编程", "2026 年初髋关节脱臼卧床：用语音+截图指挥 AI，基于 OpenClaw 搭出 8 个 Agent 的 7×24「超级 AI 团队」", "他的智能体「三万」：4 分钟建一个网站；一场直播翻车，龙虾 3 分钟救场，10 万人围观"], "url": "https://xinwen.bjd.com.cn/content/s69a609a5e4b0687a2891f966.html", "product": "", "evidence": "证据B · 北京日报/腾讯新闻", "quote": ""}, {"id": "A3", "ch": 2, "chName": "中国一号位", "person": "周鸿祎", "title": "360 创始人：每天十几个小时，烧掉 12 亿 token", "bullets": ["2026-03 自曝：「几乎每天都与 AI 协同编程，时常一天十几个小时连轴转」", "春节起亲手搭建近百个智能体，对话超 5000 次，做出「纳米漫剧流水线」：剧本、分镜、生图、配音、剪辑全由智能体分工", "迭代了两三百个版本——这不是玩票，是老板级的使用强度"], "url": "https://tech.sina.cn/2026-03-23/detail-inhryhiv4194299.d.html?vt=4", "product": "", "evidence": "证据B · 新浪科技", "quote": "AI 编程智能体是我从业以来合作过最好的程序员之一；未来比拼的是同时指挥更多智能体的能力。"}, {"id": "A8", "ch": 2, "chName": "中国一号位", "person": "一位工厂老板", "title": "80 元/年的服务器上，跑着一家「虚拟公司」", "bullets": ["白墨烫画打印厂老板，退伍军人，2025 年才开始学 AI 编程", "80 元/年的腾讯云服务器上，用 OpenClaw 部署 8 个智能体：信息雷达、公众号助手、财务日报、项目管理", "服务自己的工厂和新媒体业务，还把调教好的 Agent 打包成技能包售卖", "注意：这是社区自述（C 级），数字未经第三方核实——但路径真实可复制"], "url": "https://developer.cloud.tencent.com/article/2652032", "product": "", "evidence": "证据C · 社区自述", "quote": ""}, {"id": "", "ch": 2, "chName": "中国一号位", "person": "本章小结", "title": "中国路径：大佬卷 token，小老板卷实用", "bullets": ["傅盛、周鸿祎：把「亲自下场」当成一号位的认知投资，使用强度拉满", "工厂老板：不追大模型参数，只解决「信息、内容、财务、项目」四件事", "共同形态：都不是「写一个产品」，而是「搭一支智能体团队」", "给一号位的问题：你的「三万」在哪里？"], "url": "", "product": "", "evidence": "", "quote": ""}, {"id": "A4", "ch": 3, "chName": "传统行业老板", "person": "Jon Cheney", "title": "Gen-AIPI 创始人：$400 推翻 $105,000 的外包报价", "bullets": ["非技术出身的连续创业者（此前公司融资约 $13M），做企业 AI 咨询", "外包报价 $105K / 18 个月的测评网站，他用 Replit 三天 35 小时、$400 做完", "上线第 5 天签下第一个 $15K 客户；第一年 $250 万收入、净利超 $100 万、前 6 个月零员工", "客户画像是重点：1000万-3000万美元营收、没有 CTO 的传统企业"], "url": "https://www.taskade.com/blog/vibe-coded-business", "product": "https://www.genaipi.com", "evidence": "证据A · 本人播客 + B · 案例长文", "quote": ""}, {"id": "A5", "ch": 3, "chName": "传统行业老板", "person": "Tommy Hastings", "title": "25 年出庭律师，自研律所 AI 平台 Florence", "bullets": ["医疗事故诉讼律所管理合伙人，「没写过一行代码」", "现有法律 AI 都是给车祸案做的——他自己 vibe code 出 Florence：把医疗记录 PDF 转成结构化临床时间线", "内置他 25 年庭审总结的异常模式（换班空档、时间戳异常）", "高级律师评价：「几乎每份病历都能查出重大错误」；他拒绝出售——这是竞争武器，不是产品"], "url": "https://www.prweb.com/releases/when-legal-ai-tools-couldnt-handle-medical-malpractice-this-trial-lawyer-vibe-coded-his-own-302753944.html", "product": "", "evidence": "证据B · 律所新闻稿", "quote": "Know-how 在他身上，不在任何 SaaS 厂商手里——vibe coding 让他把 know-how 变成了软件。"}, {"id": "A6", "ch": 3, "chName": "传统行业老板", "person": "Jacob Varghese", "title": "食品卡车厂老板：把一批 SaaS 全砍了", "bullets": ["Zion Food Trucks（食品卡车制造）老板", "自建：线索接收、跟进序列、报价单/发票、每日摘要、车间 WhatsApp 仪表盘", "全部跑在 GitHub Actions 上的 Python 任务，调 Claude API；整套成本低于多数工具的单个席位价", "自建理由一句话：「报价单格式太特殊，现成软件没有能用的」"], "url": "https://www.spiceworks.com/ai/ai-vs-saas-will-vibe-coded-apps-replace-salesforce-and-servicenow/", "product": "https://zionfoodtrucks.com", "evidence": "证据B · Spiceworks 采访", "quote": ""}, {"id": "A7", "ch": 3, "chName": "传统行业老板", "person": "Dr. Fahim Hussain", "title": "英国医生：4 天、£175，替掉 £10 万外包", "bullets": ["全科诊所合伙人，零编程背景", "开发商报价 £75K-100K 的病人端 App，他用 Replit 四天建成，花费约 £175", "此后累计自建 16+ 个应用，年节省超 £10 万（厂商案例口径，未经审计）", "重点不是省钱：是需求在他脑子里，外包链条上每个人都会翻译错一遍"], "url": "https://replit.com/customers/northern-health", "product": "", "evidence": "证据A-/B · Replit 客户案例（数字偏乐观）", "quote": ""}, {"id": "C1", "ch": 4, "chName": "组织变革", "person": "Garry Tan / YC", "title": "25% 的 YC 公司，95% 的代码由 AI 生成", "bullets": ["2025-03 YC 官方视频《Vibe Coding Is the Future》披露：W25 批次 1/4 的公司 95% 代码由 AI 生成", "关键细节：「这些人都是高度技术型、本可从零自建」——不是不会写，是选择不写", "Tan 补充：该批次周增长 10%，「有公司以不到 10 人团队做到 $10M 收入」"], "url": "https://x.com/garrytan/status/1897303270311489931", "product": "", "evidence": "证据A · 本人推文+CNBC", "quote": ""}, {"id": "C7", "ch": 4, "chName": "组织变革", "person": "Tobi Lütke", "title": "Shopify：一份 memo 定义了「AI-first 公司」", "bullets": ["2025-04 把内部备忘录亲自发到 X：「Reflexive AI usage is now a baseline expectation at Shopify」", "核心条款：申请加人加资源前，必须先证明这件事用 AI 做不到；AI 使用纳入绩效与同事互评", "后续：营收增 30% 的同时裁员 500 人、实质冻结招聘（2026-09）"], "url": "https://x.com/tobi/status/1909251946235437514", "product": "", "evidence": "证据A · 本人推文", "quote": ""}, {"id": "C8", "ch": 4, "chName": "组织变革", "person": "Luis von Ahn", "title": "Duolingo：AI-first 一次上线 148 门课，然后回调", "bullets": ["2025-04 全员备忘录：「Duolingo is going to be AI-first」，停用 AI 可替代的合同工", "4 月 30 日用生成式 AI 一次上线 148 门新课程，课程目录近乎翻倍", "用户大规模 backlash 后软化措辞；2026-04 承认把「AI 使用量」从绩效考核中撤下", "教训：制度可以激进，考核不能粗暴"], "url": "https://www.banthebots.org/explainers/duolingo-ai-backlash", "product": "", "evidence": "证据A/B", "quote": ""}, {"id": "C9", "ch": 4, "chName": "组织变革", "person": "Sebastian Siemiatkowski", "title": "Klarna：AI 顶掉 700 个客服，然后重新招人", "bullets": ["2024-02 官方新闻稿：AI 客服首月处理 230 万次对话、占 2/3，「相当于 700 名全职客服」", "解决时长 11 分钟 → 2 分钟；预计 $40M 利润改善；员工从 5,500 减到 3,400", "2025-05 承认成本导向过头、质量下降，重新招聘人工客服（Bloomberg）", "教训：替代人力之前，先想清楚质量红线在哪"], "url": "https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/", "product": "", "evidence": "证据A · 官方新闻稿 + B · 回调", "quote": ""}, {"id": "C11", "ch": 4, "chName": "组织变革", "person": "Marco Argenti", "title": "高盛 CIO：让 AI 程序员进核心银行流程", "bullets": ["2025-07 CNBC：试点 Devin 自主 AI 程序员，与 1.2 万名人类工程师并行", "2026-02：与 Anthropic 嵌入式工程师合作 6 个月，Claude 智能体进交易会计和客户尽调核心流程", "金融业最大规模的 agentic coding 机构部署——最保守的行业都在动"], "url": "https://www.cnbc.com/2025/07/11/goldman-sachs-autonomous-coder-pilot-marks-major-ai-milestone.html", "product": "", "evidence": "证据A · CNBC 采访", "quote": ""}, {"id": "", "ch": 4, "chName": "组织变革", "person": "案例 C12/C6 · 两个补充数据点", "title": "小鹏与 Salesforce", "bullets": ["何小鹏（2025-07）：「我们的编程现在有 25% 来自 AI，代码 100% 会被 AI 参与 review」", "Marc Benioff（2025-06）：「AI 承担 Salesforce 30-50% 的工作」，冻结工程岗招聘", "两个都是组织层面的口径：不是老板自己写，是老板改了生产的组织方式"], "url": "", "product": "", "evidence": "证据B/A", "quote": ""}, {"id": "A9", "ch": 5, "chName": "平台生意", "person": "Maor Shlomo", "title": "Base44：6 个月，$80M 全现金退出", "bullets": ["2025-02 作为 side project 上线 AI 应用生成平台，零融资、8 名员工", "6 个月 25 万用户；自述 2025-05 单月盈利 $189K（扣 LLM 成本后晒账）", "2025-06-18 Wix 宣布 $80M 全现金收购，员工分 $25M 留任奖金", "vibe coding 时代最硬的退出案例——他卖的就是 vibe coding 本身"], "url": "https://techcrunch.com/2025/06/18/6-month-old-solo-owned-vibe-coder-base44-sells-to-wix-for-80m-cash/", "product": "https://base44.com", "evidence": "证据B · Wix 官方确认 + A · 本人晒账", "quote": ""}, {"id": "B1", "ch": 5, "chName": "平台生意", "person": "Anton Osika", "title": "Lovable：史上最快 $100M ARR", "bullets": ["由开源项目 GPT Engineer 转型，2024-11 上线", "4 周 $4M ARR → 60 天 $10M（团队仅 15 人）→ 8 个月 $100M", "2026-08 C 轮 $400M、估值 $13.3B；800 万用户每天新建 10 万+ 应用", "（ARR 均为公司自报口径，未经审计）"], "url": "https://techcrunch.com/2025/07/17/lovable-becomes-a-unicorn-with-200m-series-a-just-8-months-after-launch/", "product": "https://lovable.dev", "evidence": "证据A · 自报口径", "quote": ""}, {"id": "B2", "ch": 5, "chName": "平台生意", "person": "Eric Simons", "title": "Bolt.new：濒死公司 7 年后的绝地翻盘", "bullets": ["StackBlitz 做浏览器 IDE 七年濒临断粮", "2024-10 发布 Bolt.new：30 天 $4M ARR → 8 周 $20M → 5 个月约 $40M", "约 100 万月活；2025-01 完成 $105.5M B 轮", "教训：底层技术积累（浏览器里跑 Node）七年没人买，换个入口一个月爆发"], "url": "https://www.eomag.io/article/stackblitz-eric-simons", "product": "https://bolt.new", "evidence": "证据A/B · 创始人自报", "quote": ""}, {"id": "B3", "ch": 5, "chName": "平台生意", "person": "Amjad Masad", "title": "Replit：8 年从 <$10M，8 个月到 $100M ARR", "bullets": ["2025-03 发推「我不再认为你应该学编程」，730 万次观看", "Agent 上线后 8 个月 ARR 从 <$10M 冲到 $100M", "客户实证：Rokt 全员 hackathon，700+ 非技术员工 24 小时造出 135 个可运行内部应用", "他转述的用户案例（$300K→$25、€5M ARR）是单方口径，引用要注明"], "url": "https://x.com/amasad/status/1905103640089825788", "product": "https://replit.com", "evidence": "证据A · 推文 + B/C · 转述案例", "quote": ""}, {"id": "1", "ch": 6, "chName": "泼一盆冷水", "person": "Dario Amodei", "title": "「12 个月 AI 写 90% 代码」——到期没兑现", "bullets": ["2025-03 CFR 演讲：3-6 个月 AI 写 90% 代码，12 个月「几乎所有代码」", "2026-03 到期：行业实测远低于 90%，已被多方盘点为 missed prediction", "连 Anthropic 自己都转向了「工程验证」叙事", "给一号位的翻译：All in 工具可以，All in 时间表不行"], "url": "https://www.forbes.com/sites/kolawolesamueladebayo/2026/02/21/dario-amodei-doubled-down-on-his-ai-jobs-warning-heres-whats-different-now/", "product": "", "evidence": "证据A · 原话 + B · 复盘", "quote": ""}, {"id": "2", "ch": 6, "chName": "泼一盆冷水", "person": "王小川", "title": "改口：从「程序员是掘墓人」到「活出第二春」", "bullets": ["2023-08：「程序员是自己的掘墓人，写完代码回头就是把自己取代了」", "2026-01 改口：「说得严重了，今天资深的程序员挺好的，可以驾驭 AI，活出第二春，效率大幅提升」", "两年之间，同一个人——预测之难，大佬也一样"], "url": "https://cd.nbd.com.cn/articles/2026-01-22/4231314.html", "product": "", "evidence": "证据B · 每经/36氪", "quote": ""}, {"id": "1", "ch": 6, "chName": "泼一盆冷水", "person": "安全债", "title": "5600 个 vibe-coded 应用，2000+ 严重漏洞", "bullets": ["Escape.tech 2026-03 扫描 Lovable/Bolt.new/Base44/Create.xyz 上 5600 个线上应用：2,000+ 严重漏洞", "Moltbook 事件：一个全 vibe-coded 平台泄露 150 万条 API key", "研究口径：45% AI 生成代码带安全缺陷（Stanford/Master of Code）", "规律：同一批人给 AI 同样的提示词，会在几千个应用里犯同一个错"], "url": "https://www.metamindz.co.uk/post/lovable-incident-vibe-coding-security-breach-2026-startup-cto", "product": "", "evidence": "证据B · 安全研究", "quote": ""}, {"id": "2", "ch": 6, "chName": "泼一盆冷水", "person": "社区的警惕", "title": "「Vibe coding will break your company」", "bullets": ["Simon Willison：vibe coding 和 agentic 工程的边界正在消失——HN 787 分、885 条评论", "Forbes 评论版：vibe coding will break your company", "X 上被反复引用的一句：「能跑起来的东西和不会垮的东西，是两回事」"], "url": "https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/", "product": "", "evidence": "证据B · HN/Forbes", "quote": ""}, {"id": "", "ch": 6, "chName": "泼一盆冷水", "person": "风险 3 · 病毒爆款的幻觉", "title": "赚过快钱 ≠ 商业模式", "bullets": ["fly.pieter 飞行游戏：17 天冲到 $87K MRR，热度退后回落到约 $6K/月", "帆船游戏 Vibe Sail：自述峰值 $8K MRR，现在约 $100/月", "（这两个是个人项目，不做案例，但数据是最好的风险教具）", "结论：vibe coding 验证需求极快，但需求本身还是要你自己判断"], "url": "", "product": "", "evidence": "证据A/C · 本人自述数据", "quote": ""}], "framework": [{"id": "", "ch": 7, "chName": "行动框架", "person": "框架 1 · 三种玩法", "title": "企业家 vibe coding 的三条路线", "bullets": ["路线一 · 造工具：给自己业务造内部工具，替代 SaaS 和外包——回报最硬（第三章四位老板）", "路线二 · 验证生意：原型即产品，快速试错——护城河≈0，适合验证不适合守（Karpathy、Base44）", "路线三 · 智能体团队：搭一支 7×24 的 Agent 队伍——中国一号位的主流形态（傅盛、周鸿祎、工厂老板）", "选哪条取决于：你的 know-how 在哪里，你的瓶颈在哪里"], "url": "", "product": "", "evidence": "", "quote": ""}, {"id": "", "ch": 7, "chName": "行动框架", "person": "框架 3 · 周一清单", "title": "回公司可以做的五件事", "bullets": ["1. 找出一个「报价单太特殊、现成软件没有」的环节——那就是你的 vibe coding 起点", "2. 给自己开 3 小时，亲手把一个重复工作流做成工具（不会就照傅盛的抄：语音+截图指挥 AI）", "3. 立一条 Shopify 式规矩：申请加人之前，先证明 AI 做不了", "4. 划红线：碰客户数据和钱的系统，必须有工程师 review（记得 2000+ 漏洞）", "5. 把「指挥智能体」当成自己的新 KPI，像周鸿祎一样用使用强度说话"], "url": "", "product": "", "evidence": "", "quote": ""}], "quotes": [{"ch": 0, "text": "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists.", "who": "Andrej Karpathy，2025-02-02，vibe coding 造词原推", "note": "翻译：「完全交给感觉，拥抱指数，忘记代码的存在」——说这话的人是前特斯拉 AI 总监", "ev": "证据A · 本人推文", "url": "https://x.com/karpathy/status/1886192184808149383"}, {"ch": 1, "text": "能 vibe 的是原型，不能 vibe 的是核心系统。", "who": "本场总结，来自 Karpathy 的分寸感", "note": "造词的人自己划线：玩具和验证用 vibe，核心系统上手写——这条线后面每个案例都会出现", "ev": "证据A · nanochat 澄清", "url": null}, {"ch": 3, "text": "外包链条上每个人都会把你的需求翻译错一遍——vibe coding 让需求直接从你脑子里长出来。", "who": "本场总结", "note": "这就是四位传统行业老板共同的答案：不是他们学会了编程，是编程终于学会了听他们说话", "ev": null, "url": null}, {"ch": 4, "text": "There's a new programming language. It is called human.", "who": "Jensen Huang，2025-06 London Tech Week", "note": "注意：黄仁勋只有布道、没有实操记录——听其言，但别当成实践证据", "ev": "证据A · 演讲（布道类）", "url": "https://finance.yahoo.com/news/jensen-huang-name-checks-6-085752539.html"}, {"ch": 5, "text": "I no longer think you should learn to code.", "who": "Amjad Masad，Replit CEO，2025-03", "note": "他的话要打折听——他卖的就是「不用学编程」；但他公司的增长是真的", "ev": "证据A · 本人推文", "url": "https://x.com/amasad/status/1905103640089825788"}, {"ch": 6, "text": "能跑起来的东西，和不会垮的东西，是两回事。", "who": "X 网友 @uNeekVu（HN 大讨论中被反复引用）", "note": "AI 有开发者思维：找到一种能跑的办法就邀功；工程师思维是考虑它会怎么挂", "ev": "证据C · X 帖子", "url": "https://x.com/uNeekVu/status/2111246564547088528"}, {"ch": 7, "text": "指挥，而不是动手。", "who": "本场主金句", "note": "26 位一号位证明的事：你的价值从来不在敲键盘，在于知道要造什么、什么算好", "ev": null, "url": null}], "datas": [{"ch": 0, "kicker": "开场 · 三个数字", "title": "为什么今晚值得听", "items": [["$4.7B", "2026 年 vibe coding 工具市场，138+ 工具在混战", "FreeAIPerks 2026-05"], ["95%", "YC W25 批次 1/4 的公司，95% 代码由 AI 生成", "Garry Tan 2025-03"], ["$13.3B", "Lovable 最新估值，8 个月破 $100M ARR 后一路狂奔", "2026-08 C 轮"]]}, {"ch": 4, "kicker": "案例 C2-C4 · 三个 CEO 的代码占比", "title": "AI 写的代码在大厂占比：财报会原话", "items": [["30%+", "Google 新代码由 AI 生成、工程师审核合入（2025-04 财报会）", "Sundar Pichai"], ["20-30%", "微软仓库内代码由 AI 写成（2025-04 LlamaCon）", "Satya Nadella"], ["50%+", "「很多公司应该已经过半了」（2025-03 Stratechery）", "Sam Altman"]]}], "tables": [{"ch": 3, "kicker": "本章小结 · 一张表", "title": "四位传统行业老板：花了多少，省了多少", "header": ["老板", "行业", "vibe coded 什么", "成本", "替代掉的报价"], "rows": [["Jon Cheney", "AI 咨询", "测评网站+CRM+机器人", "$400 / 3 天", "$105K / 18 个月外包"], ["Tommy Hastings", "律所", "医疗记录时间线平台", "自己的时间", "法律 AI 厂商（不适用）"], ["Jacob Varghese", "卡车制造", "报价/发票/车间仪表盘", "< 单个 SaaS 席位价", "一批 SaaS 订阅"], ["Fahim Hussain", "医疗诊所", "病人端 App ×16", "£175 / 4 天", "£75K-100K 外包"]]}, {"ch": 7, "kicker": "框架 2 · 决策矩阵", "title": "什么该 vibe，什么不该 vibe", "header": ["", "适合 vibe coding", "不适合 vibe coding"], "rows": [["数据敏感性", "内部数据、自己的业务数据", "客户数据、支付、医疗隐私"], ["失败成本", "跑不通就重来（原型/内部工具）", "挂了就是事故（核心交易/安全系统）"], ["寿命预期", "用完即弃的验证品", "要维护三年的系统"], ["典型例子", "报价工具、内容流水线、测评站", "收银、合同签署、病历隐私"]]}]}</script>
+<script>
+const D = JSON.parse(document.getElementById('museum-data').textContent);
+const CHAPTERS = [
+  {ch:1, tag:'第一展厅', name:'命名者下场', desc:'造词的人自己怎么干'},
+  {ch:2, tag:'第二展厅', name:'中国一号位', desc:'国内大老板亲自熬夜干'},
+  {ch:3, tag:'第三展厅', name:'传统行业老板', desc:'把外包和 SaaS 的报价单打回去'},
+  {ch:4, tag:'第四展厅', name:'组织变革', desc:'大公司一号位不改自己，改组织'},
+  {ch:5, tag:'第五展厅', name:'平台生意', desc:'卖铲子的人赚了多少'},
+  {ch:6, tag:'冷水墙', name:'泼一盆冷水', desc:'预测回调、漏洞爆发、病毒款退烧', cold:true},
+];
+const state = {hall:0, ev:'', q:''};
+
+function evGrade(ev){ const m=(ev||'').match(/证据([ABC])/); return m?m[1]:'B'; }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function match(c){
+  if(state.hall && c.ch!==state.hall) return false;
+  if(state.ev && evGrade(c.evidence)!==state.ev) return false;
+  if(state.q){
+    const t=(c.person+c.title+c.bullets.join('')).toLowerCase();
+    if(!t.includes(state.q.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function cardHTML(c, i){
+  const g = evGrade(c.evidence);
+  return `<div class="card" data-i="${i}">
+    <div class="no">展品 ${esc(c.id||('No.'+c.ch))} · ${esc(c.chName)}</div>
+    <h3>${esc(c.title)}</h3>
+    <div class="person">${esc(c.person)}</div>
+    <div class="one">${esc((c.bullets[0]||'').slice(0,80))}…</div>
+    <div class="foot"><span class="badge ${g}">证据${g}</span><span class="open">查看展签 →</span></div>
+  </div>`;
+}
+
+function render(){
+  const main = document.getElementById('main');
+  let html='', shown=0;
+  CHAPTERS.forEach(h=>{
+    const items = D.exhibits.map((c,i)=>({c,i})).filter(x=>match(x.c) && x.c.ch===h.ch);
+    if(!items.length) return;
+    shown += items.length;
+    html += `<section class="hall${h.cold?' cold':''}" id="hall${h.ch}">
+      <div class="hall-head"><span class="no">${h.tag}</span><h2 class="serif">${h.name}</h2><span class="desc">${h.desc}</span></div>
+      <div class="grid">${items.map(x=>cardHTML(x.c,x.i)).join('')}</div></section>`;
+  });
+  main.innerHTML = html || '<p style="text-align:center;color:#999;padding:60px">没有符合条件的展品，换个关键词试试。</p>';
+  document.getElementById('countnote').textContent = `当前展出 ${shown} 件展品 ｜ 全部展品均附原始来源链接，可逐条点开核验`;
+  main.querySelectorAll('.card').forEach(el=>el.onclick=()=>openModal(+el.dataset.i));
+}
+
+function renderHalls(){
+  const nav = document.getElementById('halls');
+  const btns = [{ch:0,name:'全部展厅'}].concat(CHAPTERS);
+  nav.innerHTML = btns.map(h=>`<button class="hall-btn${state.hall===h.ch?' on':''}" data-ch="${h.ch}">${h.ch?('展厅 '+h.ch+' · ')===''?'':h.name:h.name}</button>`).join('');
+  nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{state.hall=+b.dataset.ch; renderHalls(); render();});
+}
+
+function openModal(i){
+  const c = D.exhibits[i]; const g = evGrade(c.evidence);
+  const m = document.getElementById('modal');
+  m.innerHTML = `<button class="close" id="mclose">×</button>
+    <div class="mno">展品 ${esc(c.id||'')} · ${esc(c.chName)}</div>
+    <h2 class="serif">${esc(c.title)}</h2>
+    <div class="mperson">${esc(c.person)}</div>
+    <div class="mhall">证据等级：<span class="badge ${g}">证据${g}</span>　${esc(c.evidence)}</div>
+    <ul>${c.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+    ${c.quote?`<div class="mquote">「${esc(c.quote)}」</div>`:''}
+    <div class="links">
+      ${c.url?`<a class="src" href="${esc(c.url)}" target="_blank" rel="noopener">原始来源 ↗ 点开核验</a>`:''}
+      ${c.product?`<a class="prd" href="${esc(c.product)}" target="_blank" rel="noopener">他们做出来的成果 ↗ 实地体验</a>`:''}
+    </div>`;
+  document.getElementById('mask').classList.add('show');
+  document.getElementById('mclose').onclick=closeModal;
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ document.getElementById('mask').classList.remove('show'); document.body.style.overflow=''; }
+document.getElementById('mask').onclick=e=>{ if(e.target.id==='mask') closeModal(); };
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* 数据带 */
+(function(){
+  const el=document.getElementById('databand');
+  el.innerHTML = '<div class="inner">' + D.datas.map(d=>
+    `<div class="kick">${esc(d.kicker)}</div><h2 class="serif">${esc(d.title)}</h2>
+     <div class="datarow">${d.items.map(it=>`<div class="datacard"><b>${esc(it[0])}</b><p>${esc(it[1])}</p><span>${esc(it[2]||'')}</span></div>`).join('')}</div>`
+  ).join('<div style="height:34px"></div>') + '</div>';
+})();
+
+/* 金句墙 */
+(function(){
+  const el=document.getElementById('quotes');
+  el.innerHTML = `<div class="hall-head"><span class="no">QUOTE WALL</span><h2 class="serif">他们说</h2><span class="desc">原话与出处，含需要打折听的话</span></div>
+    <div class="qgrid">${D.quotes.map(q=>`<div class="qcard">
+      <div class="qt">${esc(q.text)}</div><div class="qw">—— ${esc(q.who)}</div>
+      <div class="qn">${esc(q.note||'')}${q.url?` ｜ <a href="${esc(q.url)}" target="_blank" rel="noopener" style="color:#9db2ca">原文 ↗</a>`:''}</div>
+    </div>`).join('')}</div>`;
+})();
+
+/* 行动框架 */
+(function(){
+  const el=document.getElementById('framework');
+  const routes = D.framework.filter(f=>/路线|玩法|三种/.test(f.person+f.title));
+  const matrix = D.tables.find(t=>/决策矩阵|该不该/.test(t.kicker+t.title));
+  const checklist = D.framework.find(f=>/五件事|清单/.test(f.person+f.title));
+  el.innerHTML = `<div class="inner">
+    <div class="hall-head"><span class="no">TAKE AWAY</span><h2 class="serif">给一号位的行动框架</h2><span class="desc">看完 26 个人的下场记录，带走的就这三层</span></div>
+    ${routes.map(r=>`<div class="routes">${r.bullets.filter(b=>b.startsWith('路线')).map(b=>{
+        const seg=b.split('：'); return `<div class="route"><h3 class="serif">${esc(seg[0])}</h3><p>${esc(seg[1]||'')}</p></div>`;}).join('')}</div>`)[0]||''}
+    ${routes.map(r=>`<p style="margin-top:10px;font-size:14px;color:var(--grey)">${esc(r.bullets[r.bullets.length-1]||'')}</p>`)[0]||''}
+    ${matrix?`<h3 class="serif" style="margin-top:34px;font-size:19px">${esc(matrix.title)}</h3>
+    <table class="matrix"><tr>${matrix.header.map(h=>`<th>${esc(h)}</th>`).join('')}</tr>
+    ${matrix.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table>`:''}
+    ${checklist?`<div class="checklist"><h3 class="serif">${esc(checklist.title)}</h3><ul style="list-style:none;margin-left:0">
+      ${checklist.bullets.map(b=>{const m=b.match(/^(\d+)\.\s*(.*)$/);return `<li><b>${m?m[1]:''}</b>　${esc(m?m[2]:b)}</li>`;}).join('')}</ul></div>`:''}
+  </div>`;
+})();
+
+/* 搜索与证据筛选 */
+let qt;
+document.getElementById('q').addEventListener('input', e=>{
+  clearTimeout(qt); qt=setTimeout(()=>{state.q=e.target.value.trim(); render();},180);
+});
+document.getElementById('evfilter').querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{ state.ev=b.dataset.ev;
+    document.querySelectorAll('#evfilter button').forEach(x=>x.classList.toggle('on',x===b)); render(); };
+});
+
+renderHalls(); render();
+</script>
+</body>
+</html>
